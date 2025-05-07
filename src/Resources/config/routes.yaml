@@ -1,0 +1,3 @@
+wechat_pay_complaint_controllers:
+  resource: '../../Controller/'
+  type: attribute
