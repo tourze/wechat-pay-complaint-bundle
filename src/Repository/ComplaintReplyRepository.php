@@ -4,7 +4,6 @@ namespace WechatPayComplaintBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use DoctrineEnhanceBundle\Repository\CommonRepositoryAware;
 use WechatPayComplaintBundle\Entity\ComplaintReply;
 
 /**
@@ -15,7 +14,6 @@ use WechatPayComplaintBundle\Entity\ComplaintReply;
  */
 class ComplaintReplyRepository extends ServiceEntityRepository
 {
-    use CommonRepositoryAware;
 
     public function __construct(ManagerRegistry $registry)
     {
