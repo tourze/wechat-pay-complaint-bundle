@@ -14,7 +14,7 @@ use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
 use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 use Tourze\EasyAdmin\Attribute\Filter\Filterable;
 use WechatPayBundle\Entity\Merchant;
-use WechatPayBundle\Enum\ComplaintState;
+use WechatPayComplaintBundle\Enum\ComplaintState;
 use WechatPayComplaintBundle\Repository\ComplaintRepository;
 
 /**
