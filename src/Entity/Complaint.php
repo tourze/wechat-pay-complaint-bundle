@@ -8,8 +8,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 use WechatPayBundle\Entity\Merchant;
 use WechatPayComplaintBundle\Enum\ComplaintState;
 use WechatPayComplaintBundle\Repository\ComplaintRepository;
@@ -23,8 +21,6 @@ class Complaint
 {
     use TimestampableAware;
 
-    #[ExportColumn]
-    #[ListColumn(order: -1, sorter: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
@@ -35,53 +31,42 @@ class Complaint
     #[ORM\JoinColumn(nullable: false)]
     private ?Merchant $merchant = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 100, unique: true, options: ['comment' => '投诉单号'])]
     private ?string $wxComplaintId = null;
 
     #[ORM\Column(length: 100, options: ['comment' => '投诉时间'])]
     private ?string $complaintTime = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 100, enumType: ComplaintState::class, options: ['comment' => '投诉单状态'])]
     private ?ComplaintState $complaintState = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 11, nullable: true, options: ['comment' => '投诉人联系方式'])]
     private ?string $payerPhone = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 100, options: ['comment' => '本地订单号'])]
     private ?string $payOrderNo = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 100, nullable: true, options: ['comment' => '微信订单号'])]
     private ?string $wxPayOrderNo = null;
 
-    #[ListColumn]
     #[ORM\Column(options: ['comment' => '订单金额'])]
     private ?float $amount = null;
 
-    #[ListColumn]
     #[ORM\Column(nullable: true, options: ['comment' => '申请退款金额'])]
     private ?float $applyRefundAmount = null;
 
-    #[ListColumn]
     #[ORM\Column(nullable: true, options: ['comment' => '投诉次数'])]
     private ?int $userComplaintTimes = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true, options: ['comment' => '原始数据'])]
     private ?string $rawData = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 300, nullable: true, options: ['comment' => '投诉详情'])]
     private ?string $complaintDetail = null;
 
-    #[ListColumn]
     #[ORM\Column(length: 255, nullable: true, options: ['comment' => '问题描述'])]
     private ?string $problemDescription = null;
 
-    #[ListColumn]
     #[ORM\Column(nullable: true, options: ['comment' => '投诉单是否已全额退款'])]
     private ?bool $complaintFullRefunded = null;
 
