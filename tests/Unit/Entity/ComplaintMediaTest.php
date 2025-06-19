@@ -39,14 +39,14 @@ class ComplaintMediaTest extends TestCase
 
     public function testSetGetCreateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaintMedia->setCreateTime($time);
         $this->assertSame($time, $this->complaintMedia->getCreateTime());
     }
 
     public function testSetGetUpdateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaintMedia->setUpdateTime($time);
         $this->assertSame($time, $this->complaintMedia->getUpdateTime());
     }

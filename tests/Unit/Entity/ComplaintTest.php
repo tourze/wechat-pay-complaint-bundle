@@ -140,14 +140,14 @@ class ComplaintTest extends TestCase
 
     public function testSetGetCreateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaint->setCreateTime($time);
         $this->assertSame($time, $this->complaint->getCreateTime());
     }
 
     public function testSetGetUpdateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaint->setUpdateTime($time);
         $this->assertSame($time, $this->complaint->getUpdateTime());
     }

@@ -2,7 +2,6 @@
 
 namespace WechatPayComplaintBundle\Command;
 
-use Carbon\Carbon;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -24,10 +23,10 @@ use Yiisoft\Json\Json;
  * @see https://pay.weixin.qq.com/docs/merchant/apis/consumer-complaint/complaints/list-complaints-v2.html
  */
 #[AsCronTask('* * * * *')]
-#[AsCommand(name: 'wechat:pay:fetch-pay-complaint', description: '查询投诉单列表')]
+#[AsCommand(name: self::NAME, description: '查询投诉单列表')]
 class FetchListCommand extends Command
 {
-    public const NAME = 'fetch-list';
+    public const NAME = 'wechat:pay:fetch-pay-complaint';
 
     public function __construct(
         public LoggerInterface $logger,

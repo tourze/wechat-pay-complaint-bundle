@@ -32,14 +32,14 @@ class ComplaintReplyTest extends TestCase
 
     public function testSetGetCreateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaintReply->setCreateTime($time);
         $this->assertSame($time, $this->complaintReply->getCreateTime());
     }
 
     public function testSetGetUpdateTime(): void
     {
-        $time = new \DateTime();
+        $time = new \DateTimeImmutable();
         $this->complaintReply->setUpdateTime($time);
         $this->assertSame($time, $this->complaintReply->getUpdateTime());
     }
