@@ -27,6 +27,8 @@ use Yiisoft\Json\Json;
 #[AsCommand(name: 'wechat:pay:fetch-pay-complaint', description: '查询投诉单列表')]
 class FetchListCommand extends Command
 {
+    public const NAME = 'fetch-list';
+
     public function __construct(
         public LoggerInterface $logger,
         public ComplaintRepository $complaintRepository,

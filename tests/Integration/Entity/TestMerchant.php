@@ -7,7 +7,7 @@ use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'test_merchant')]
-class TestMerchant
+class TestMerchant implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -102,5 +102,10 @@ class TestMerchant
     {
         $this->certificatePath = $certificatePath;
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 } 

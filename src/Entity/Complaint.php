@@ -17,7 +17,7 @@ use WechatPayComplaintBundle\Repository\ComplaintRepository;
  */
 #[ORM\Entity(repositoryClass: ComplaintRepository::class)]
 #[ORM\Table(name: 'wechat_payment_complaint', options: ['comment' => '微信支付-投诉'])]
-class Complaint
+class Complaint implements \Stringable
 {
     use TimestampableAware;
 
@@ -279,5 +279,10 @@ class Complaint
         $this->complaintTime = $complaintTime;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 }

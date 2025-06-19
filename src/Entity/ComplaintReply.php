@@ -14,7 +14,7 @@ use WechatPayComplaintBundle\Repository\ComplaintReplyRepository;
  */
 #[ORM\Entity(repositoryClass: ComplaintReplyRepository::class)]
 #[ORM\Table(name: 'wechat_payment_complaint_reply', options: ['comment' => '微信支付-投诉回复'])]
-class ComplaintReply
+class ComplaintReply implements \Stringable
 {
     use TimestampableAware;
 
@@ -55,5 +55,10 @@ class ComplaintReply
     public function setContent(string $content): void
     {
         $this->content = $content;
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getId();
     }
 }
