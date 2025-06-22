@@ -24,7 +24,7 @@ class ComplaintReply implements \Stringable
     #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
     private ?string $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, options: ['comment' => '回复内容'])]
     private string $content;
 
     #[Ignore]

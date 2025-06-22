@@ -83,8 +83,8 @@ class FetchListCommand extends Command
     protected function configure(): void
     {
         $this->setDescription('查询投诉单列表')
-            ->addArgument('startTime', InputArgument::OPTIONAL, 'start time', Carbon::now()->startOfDay()->getTimestamp())
-            ->addArgument('endTime', InputArgument::OPTIONAL, 'end time', Carbon::now()->endOfDay()->getTimestamp());
+            ->addArgument('startTime', InputArgument::OPTIONAL, 'start time', (new \DateTime('today'))->format('Y-m-d'))
+            ->addArgument('endTime', InputArgument::OPTIONAL, 'end time', (new \DateTime('today 23:59:59'))->format('Y-m-d'));
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

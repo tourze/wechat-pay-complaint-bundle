@@ -8,7 +8,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use WechatPayBundle\Entity\Merchant;
 use WechatPayComplaintBundle\Enum\ComplaintState;
 use WechatPayComplaintBundle\Repository\ComplaintRepository;
 
@@ -27,9 +26,9 @@ class Complaint implements \Stringable
     #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
     private ?string $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: \WechatPayBundle\Entity\Merchant::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Merchant $merchant = null;
+    private ?object $merchant = null;
 
     #[ORM\Column(length: 100, unique: true, options: ['comment' => '投诉单号'])]
     private ?string $wxComplaintId = null;
@@ -83,12 +82,12 @@ class Complaint implements \Stringable
         return $this->id;
     }
 
-    public function getMerchant(): ?Merchant
+    public function getMerchant(): ?object
     {
         return $this->merchant;
     }
 
-    public function setMerchant(?Merchant $merchant): static
+    public function setMerchant(?object $merchant): static
     {
         $this->merchant = $merchant;
 

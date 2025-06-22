@@ -112,13 +112,4 @@ class FetchListCommandTest extends TestCase
         $this->assertEquals(0, $mockCommandTester->getStatusCode());
     }
 
-    /**
-     * @group slow
-     */
-    public function testPersistsComplaintData(): void
-    {
-        // 在测试命令执行时，无法实际执行 request 方法中的 persist 调用
-        // 因此这个测试在这里不是真正有效的，完整测试应通过集成测试完成
-        $this->markTestSkipped('此测试需要完整的集成测试环境才能有效执行');
-    }
 } 

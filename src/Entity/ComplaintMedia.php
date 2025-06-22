@@ -24,10 +24,10 @@ class ComplaintMedia implements \Stringable
     #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
     private ?string $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, options: ['comment' => '媒体类型'])]
     private ?string $mediaType = null;
 
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::JSON, options: ['comment' => '媒体URL列表'])]
     private array $mediaUrl = [];
 
     #[Ignore]

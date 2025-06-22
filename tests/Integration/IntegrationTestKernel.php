@@ -7,14 +7,11 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Tourze\BundleDependency\BundleDependencyBundle;
 use Tourze\DoctrineIndexedBundle\DoctrineIndexedBundle;
 use Tourze\DoctrineSnowflakeBundle\DoctrineSnowflakeBundle;
 use Tourze\DoctrineTimestampBundle\DoctrineTimestampBundle;
-use Tourze\EasyAdmin\Attribute\EasyAdminAttributeBundle;
-use Tourze\EnumExtra\EnumExtraBundle;
 use Tourze\SnowflakeBundle\SnowflakeBundle;
-use Tourze\Symfony\CronJob\SymfonyCronJobBundle;
+use Tourze\Symfony\CronJob\CronJobBundle;
 use WechatPayBundle\WechatPayBundle;
 use WechatPayComplaintBundle\WechatPayComplaintBundle;
 
@@ -30,10 +27,7 @@ class IntegrationTestKernel extends BaseKernel
         yield new DoctrineSnowflakeBundle();
         yield new DoctrineIndexedBundle();
         yield new DoctrineTimestampBundle();
-        yield new EnumExtraBundle();
-        yield new BundleDependencyBundle();
-        yield new EasyAdminAttributeBundle();
-        yield new SymfonyCronJobBundle();
+        yield new CronJobBundle();
         yield new WechatPayBundle();
         yield new WechatPayComplaintBundle();
     }
@@ -68,19 +62,19 @@ class IntegrationTestKernel extends BaseKernel
                     'WechatPayComplaintEntities' => [
                         'is_bundle' => false,
                         'type' => 'attribute',
-                        'dir' => '%kernel.project_dir%/packages/wechat-pay-complaint-bundle/src/Entity',
+                        'dir' => __DIR__ . '/../../src/Entity',
                         'prefix' => 'WechatPayComplaintBundle\Entity',
                     ],
                     'WechatPayEntities' => [
                         'is_bundle' => false,
                         'type' => 'attribute',
-                        'dir' => '%kernel.project_dir%/packages/wechat-pay-bundle/src/Entity',
+                        'dir' => __DIR__ . '/../../../wechat-pay-bundle/src/Entity',
                         'prefix' => 'WechatPayBundle\Entity',
                     ],
                     'TestEntities' => [
                         'is_bundle' => false,
                         'type' => 'attribute',
-                        'dir' => '%kernel.project_dir%/packages/wechat-pay-complaint-bundle/tests/Integration/Entity',
+                        'dir' => __DIR__ . '/Entity',
                         'prefix' => 'WechatPayComplaintBundle\Tests\Integration\Entity',
                     ],
                 ],
