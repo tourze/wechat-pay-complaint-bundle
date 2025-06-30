@@ -22,7 +22,7 @@ use Yiisoft\Json\Json;
 /**
  * @see https://pay.weixin.qq.com/docs/merchant/apis/consumer-complaint/complaints/list-complaints-v2.html
  */
-#[AsCronTask('* * * * *')]
+#[AsCronTask(expression: '* * * * *')]
 #[AsCommand(name: self::NAME, description: '查询投诉单列表')]
 class FetchListCommand extends Command
 {

@@ -3,6 +3,7 @@
 namespace WechatPayComplaintBundle\Tests\Integration;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
+use Snc\RedisBundle\SncRedisBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -10,6 +11,7 @@ use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Tourze\DoctrineIndexedBundle\DoctrineIndexedBundle;
 use Tourze\DoctrineSnowflakeBundle\DoctrineSnowflakeBundle;
 use Tourze\DoctrineTimestampBundle\DoctrineTimestampBundle;
+use Tourze\LockServiceBundle\LockServiceBundle;
 use Tourze\SnowflakeBundle\SnowflakeBundle;
 use Tourze\Symfony\CronJob\CronJobBundle;
 use WechatPayBundle\WechatPayBundle;
@@ -23,10 +25,12 @@ class IntegrationTestKernel extends BaseKernel
     {
         yield new FrameworkBundle();
         yield new DoctrineBundle();
+        yield new SncRedisBundle();
         yield new SnowflakeBundle();
         yield new DoctrineSnowflakeBundle();
         yield new DoctrineIndexedBundle();
         yield new DoctrineTimestampBundle();
+        yield new LockServiceBundle();
         yield new CronJobBundle();
         yield new WechatPayBundle();
         yield new WechatPayComplaintBundle();
@@ -42,6 +46,13 @@ class IntegrationTestKernel extends BaseKernel
             'handle_all_throwables' => true,
             'php_errors' => [
                 'log' => true,
+            ],
+            'validation' => [
+                'email_validation_mode' => 'html5',
+            ],
+            'uid' => [
+                'default_uuid_version' => 7,
+                'time_based_uuid_version' => 7,
             ],
         ]);
 
@@ -65,12 +76,6 @@ class IntegrationTestKernel extends BaseKernel
                         'dir' => __DIR__ . '/../../src/Entity',
                         'prefix' => 'WechatPayComplaintBundle\Entity',
                     ],
-                    'WechatPayEntities' => [
-                        'is_bundle' => false,
-                        'type' => 'attribute',
-                        'dir' => __DIR__ . '/../../../wechat-pay-bundle/src/Entity',
-                        'prefix' => 'WechatPayBundle\Entity',
-                    ],
                     'TestEntities' => [
                         'is_bundle' => false,
                         'type' => 'attribute',
@@ -80,6 +85,50 @@ class IntegrationTestKernel extends BaseKernel
                 ],
             ],
         ]);
+        
+        // Redis 配置 - 测试环境
+        $container->extension('snc_redis', [
+            'clients' => [
+                'default' => [
+                    'type' => 'phpredis',
+                    'alias' => 'default',
+                    'dsn' => 'redis://127.0.0.1:6379',
+                ],
+            ],
+        ]);
+
+        // Snowflake 配置
+        $container->extension('snowflake', [
+            'datacenter_id' => 1,
+            'worker_id' => 1,
+        ]);
+        
+        // 配置测试服务
+        $services = $container->services();
+        
+        // 模拟 Logger
+        $services->set('logger', \Psr\Log\NullLogger::class);
+        
+        // 模拟 WechatPayBuilder
+        $services->set(\WechatPayBundle\Service\WechatPayBuilder::class)
+            ->synthetic();
+        
+        // 模拟 MerchantRepository
+        $services->set(\WechatPayBundle\Repository\MerchantRepository::class)
+            ->synthetic();
+        
+        // 模拟 FilesystemOperator
+        $services->set(\League\Flysystem\FilesystemOperator::class)
+            ->synthetic();
+        
+        // 模拟 SmartHttpClient
+        $services->set(\HttpClientBundle\Service\SmartHttpClient::class)
+            ->synthetic();
+        
+        // 配置实体映射替换 - 使用 ResolveTargetEntityListener
+        $services->set('doctrine.orm.listeners.resolve_target_entity')
+            ->class(\Doctrine\ORM\Tools\ResolveTargetEntityListener::class)
+            ->tag('doctrine.event_listener', ['event' => 'loadClassMetadata']);
     }
 
     public function getCacheDir(): string

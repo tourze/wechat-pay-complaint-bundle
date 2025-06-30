@@ -5,7 +5,7 @@ namespace WechatPayComplaintBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Ignore;
-use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
+use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatPayComplaintBundle\Repository\ComplaintReplyRepository;
 
@@ -17,12 +17,8 @@ use WechatPayComplaintBundle\Repository\ComplaintReplyRepository;
 class ComplaintReply implements \Stringable
 {
     use TimestampableAware;
+    use SnowflakeKeyAware;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
-    #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
-    private ?string $id = null;
 
     #[ORM\Column(length: 255, options: ['comment' => '回复内容'])]
     private string $content;
@@ -32,10 +28,6 @@ class ComplaintReply implements \Stringable
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Complaint $complaint = null;
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
     public function getComplaint(): ?Complaint
     {

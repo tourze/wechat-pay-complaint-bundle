@@ -10,6 +10,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use WechatPayBundle\Entity\Merchant;
 use WechatPayBundle\Repository\MerchantRepository;
 use WechatPayBundle\Service\WechatPayBuilder;
+use WeChatPay\BuilderChainable;
 use WechatPayComplaintBundle\Command\FetchListCommand;
 use WechatPayComplaintBundle\Repository\ComplaintMediaRepository;
 use WechatPayComplaintBundle\Repository\ComplaintRepository;
@@ -78,38 +79,38 @@ class FetchListCommandTest extends TestCase
             ->method('findAll')
             ->willReturn([$merchant]);
 
-        // 创建部分模拟的命令对象
-        $mockCommand = $this->getMockBuilder(FetchListCommand::class)
-            ->setConstructorArgs([
-                $this->logger,
-                $this->complaintRepository,
-                $this->mediaRepository,
-                $this->merchantRepository,
-                $this->wechatPayBuilder,
-                $this->entityManager,
-            ])
-            ->onlyMethods(['request'])
-            ->getMock();
-
-        // 设置 request 方法的期望
-        $mockCommand->expects($this->once())
-            ->method('request')
-            ->with(
-                $this->identicalTo($merchant),
-                $this->equalTo(20),
-                $this->equalTo(0),
-                $this->isType('string'),
-                $this->isType('string')
-            );
-
-        // 使用模拟命令创建 CommandTester
-        $mockCommandTester = new CommandTester($mockCommand);
+        // 创建 BuilderChainable 的 mock
+        $mockBuilder = $this->createMock(BuilderChainable::class);
         
+        $mockBuilder->expects($this->once())
+            ->method('chain')
+            ->willReturnSelf();
+            
+        $mockResponse = $this->createMock(\Psr\Http\Message\ResponseInterface::class);
+        $mockStream = $this->createMock(\Psr\Http\Message\StreamInterface::class);
+        
+        $mockStream->method('getContents')
+            ->willReturn(json_encode([
+                'data' => [],
+                'total_count' => 0
+            ]));
+            
+        $mockResponse->method('getBody')
+            ->willReturn($mockStream);
+            
+        $mockBuilder->expects($this->once())
+            ->method('get')
+            ->willReturn($mockResponse);
+            
+        $this->wechatPayBuilder->expects($this->once())
+            ->method('genBuilder')
+            ->with($merchant)
+            ->willReturn($mockBuilder);
+
         // 执行命令
-        $mockCommandTester->execute([]);
+        $this->commandTester->execute([]);
         
         // 验证执行成功
-        $this->assertEquals(0, $mockCommandTester->getStatusCode());
+        $this->assertEquals(0, $this->commandTester->getStatusCode());
     }
-
 } 

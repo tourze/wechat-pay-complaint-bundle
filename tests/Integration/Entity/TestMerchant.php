@@ -4,17 +4,13 @@ namespace WechatPayComplaintBundle\Tests\Integration\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
+use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'test_merchant', options: ['comment' => '测试商户'])]
 class TestMerchant implements \Stringable
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
-    #[ORM\Column(type: Types::BIGINT, options: ['comment' => 'ID'])]
-    private ?string $id = null;
+    use SnowflakeKeyAware;
 
     #[ORM\Column(length: 32, options: ['comment' => '商户ID'])]
     private ?string $mchId = null;
@@ -34,10 +30,6 @@ class TestMerchant implements \Stringable
     #[ORM\Column(length: 255, nullable: true, options: ['comment' => '证书路径'])]
     private ?string $certificatePath = null;
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
     public function getMchId(): ?string
     {

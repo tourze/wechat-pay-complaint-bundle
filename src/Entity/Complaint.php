@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
+use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatPayComplaintBundle\Enum\ComplaintState;
 use WechatPayComplaintBundle\Repository\ComplaintRepository;
@@ -19,12 +19,8 @@ use WechatPayComplaintBundle\Repository\ComplaintRepository;
 class Complaint implements \Stringable
 {
     use TimestampableAware;
+    use SnowflakeKeyAware;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
-    #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
-    private ?string $id = null;
 
     #[ORM\ManyToOne(targetEntity: \WechatPayBundle\Entity\Merchant::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -77,10 +73,6 @@ class Complaint implements \Stringable
         $this->complaintMedia = new ArrayCollection();
     }
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
     public function getMerchant(): ?object
     {

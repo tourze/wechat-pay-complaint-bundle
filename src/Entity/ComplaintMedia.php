@@ -5,7 +5,7 @@ namespace WechatPayComplaintBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Ignore;
-use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
+use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatPayComplaintBundle\Repository\ComplaintMediaRepository;
 
@@ -17,12 +17,8 @@ use WechatPayComplaintBundle\Repository\ComplaintMediaRepository;
 class ComplaintMedia implements \Stringable
 {
     use TimestampableAware;
+    use SnowflakeKeyAware;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
-    #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
-    private ?string $id = null;
 
     #[ORM\Column(length: 100, options: ['comment' => '媒体类型'])]
     private ?string $mediaType = null;
@@ -35,10 +31,6 @@ class ComplaintMedia implements \Stringable
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Complaint $complaint = null;
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
     public function getMediaType(): ?string
     {
