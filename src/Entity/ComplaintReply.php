@@ -2,9 +2,9 @@
 
 namespace WechatPayComplaintBundle\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatPayComplaintBundle\Repository\ComplaintReplyRepository;
@@ -19,15 +19,15 @@ class ComplaintReply implements \Stringable
     use TimestampableAware;
     use SnowflakeKeyAware;
 
-
     #[ORM\Column(length: 255, options: ['comment' => '回复内容'])]
-    private string $content;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $content = null;
 
     #[Ignore]
     #[ORM\ManyToOne(inversedBy: 'complaintReply')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Complaint $complaint = null;
-
 
     public function getComplaint(): ?Complaint
     {
@@ -39,12 +39,12 @@ class ComplaintReply implements \Stringable
         $this->complaint = $complaint;
     }
 
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }

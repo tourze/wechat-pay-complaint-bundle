@@ -2,13 +2,14 @@
 
 namespace WechatPayComplaintBundle\Enum;
 
+use Tourze\EnumExtra\BadgeInterface;
 use Tourze\EnumExtra\Itemable;
 use Tourze\EnumExtra\ItemTrait;
 use Tourze\EnumExtra\Labelable;
 use Tourze\EnumExtra\Selectable;
 use Tourze\EnumExtra\SelectTrait;
 
-enum ComplaintState: string implements Labelable, Itemable, Selectable
+enum ComplaintState: string implements Labelable, Itemable, Selectable, BadgeInterface
 {
     use ItemTrait;
     use SelectTrait;
@@ -23,6 +24,15 @@ enum ComplaintState: string implements Labelable, Itemable, Selectable
             self::PENDING => '待处理',
             self::PROCESSING => '处理中',
             self::PROCESSED => '已处理完成',
+        };
+    }
+
+    public function getBadge(): string
+    {
+        return match ($this) {
+            self::PENDING => 'warning',
+            self::PROCESSING => 'info',
+            self::PROCESSED => 'success',
         };
     }
 }

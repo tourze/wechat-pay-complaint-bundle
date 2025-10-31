@@ -1,0 +1,25 @@
+{% if ea.crud.currentPage == 'detail' %}
+    {% if field.value is not empty %}
+        <div class="media-url-list">
+            {% for url in field.value %}
+                <div class="media-url-item mb-2">
+                    <strong>文件 {{ loop.index }}:</strong>
+                    <br>
+                    <a href="{{ url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-external-link-alt"></i> 查看文件
+                    </a>
+                    <br>
+                    <code class="text-muted">{{ url }}</code>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <span class="text-muted">暂无媒体文件</span>
+    {% endif %}
+{% else %}
+    {% if field.value is not empty %}
+        <span class="badge badge-info">{{ field.value|length }} 个文件</span>
+    {% else %}
+        <span class="text-muted">无文件</span>
+    {% endif %}
+{% endif %}

@@ -5,6 +5,7 @@ namespace WechatPayComplaintBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use WechatPayComplaintBundle\Repository\ComplaintMediaRepository;
@@ -19,11 +20,16 @@ class ComplaintMedia implements \Stringable
     use TimestampableAware;
     use SnowflakeKeyAware;
 
-
     #[ORM\Column(length: 100, options: ['comment' => '媒体类型'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 100)]
     private ?string $mediaType = null;
 
+    /**
+     * @var array<int, string>
+     */
     #[ORM\Column(type: Types::JSON, options: ['comment' => '媒体URL列表'])]
+    #[Assert\NotNull]
     private array $mediaUrl = [];
 
     #[Ignore]
@@ -31,29 +37,30 @@ class ComplaintMedia implements \Stringable
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Complaint $complaint = null;
 
-
     public function getMediaType(): ?string
     {
         return $this->mediaType;
     }
 
-    public function setMediaType(string $mediaType): static
+    public function setMediaType(string $mediaType): void
     {
         $this->mediaType = $mediaType;
-
-        return $this;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getMediaUrl(): array
     {
         return $this->mediaUrl;
     }
 
-    public function setMediaUrl(array $mediaUrl): static
+    /**
+     * @param array<int, string> $mediaUrl
+     */
+    public function setMediaUrl(array $mediaUrl): void
     {
         $this->mediaUrl = $mediaUrl;
-
-        return $this;
     }
 
     public function getComplaint(): ?Complaint
@@ -61,11 +68,9 @@ class ComplaintMedia implements \Stringable
         return $this->complaint;
     }
 
-    public function setComplaint(?Complaint $complaint): static
+    public function setComplaint(?Complaint $complaint): void
     {
         $this->complaint = $complaint;
-
-        return $this;
     }
 
     public function __toString(): string

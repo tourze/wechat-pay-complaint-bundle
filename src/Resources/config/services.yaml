@@ -6,15 +6,10 @@ services:
 
   WechatPayComplaintBundle\Command\:
     resource: '../../Command/'
-  WechatPayComplaintBundle\Controller\:
-    resource: '../../Controller/'
-  WechatPayComplaintBundle\EventSubscriber\:
-    resource: '../../EventSubscriber/'
-  WechatPayComplaintBundle\MessageHandler\:
-    resource: '../../MessageHandler/'
-  WechatPayComplaintBundle\Procedure\:
-    resource: '../../Procedure/'
   WechatPayComplaintBundle\Repository\:
     resource: '../../Repository/'
+  WechatPayComplaintBundle\Controller\Admin\:
+    resource: '../../Controller/Admin/'
+    tags: ['controller.service_arguments']
   WechatPayComplaintBundle\Service\:
     resource: '../../Service/'
