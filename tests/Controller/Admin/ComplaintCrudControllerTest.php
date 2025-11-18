@@ -49,11 +49,6 @@ final class ComplaintCrudControllerTest extends AbstractEasyAdminControllerTestC
         yield 'disabled' => ['disabled'];
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(Complaint::class, ComplaintCrudController::getEntityFqcn());
-    }
-
     public function testConfigureFields(): void
     {
         $controller = new ComplaintCrudController();

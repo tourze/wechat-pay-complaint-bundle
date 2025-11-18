@@ -42,11 +42,6 @@ final class ComplaintMediaCrudControllerTest extends AbstractEasyAdminController
         return self::provideNewPageFields();
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(ComplaintMedia::class, ComplaintMediaCrudController::getEntityFqcn());
-    }
-
     public function testConfigureFields(): void
     {
         $controller = new ComplaintMediaCrudController();

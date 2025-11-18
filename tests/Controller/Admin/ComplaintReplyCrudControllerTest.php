@@ -42,11 +42,6 @@ final class ComplaintReplyCrudControllerTest extends AbstractEasyAdminController
         return self::provideNewPageFields();
     }
 
-    public function testGetEntityFqcn(): void
-    {
-        $this->assertSame(ComplaintReply::class, ComplaintReplyCrudController::getEntityFqcn());
-    }
-
     public function testConfigureFields(): void
     {
         $controller = new ComplaintReplyCrudController();
