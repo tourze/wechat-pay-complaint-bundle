@@ -29,17 +29,17 @@ class MockFilesystemOperator implements FilesystemOperator
     {
         $resource = fopen('php://memory', 'r');
         if (false === $resource) {
-            throw new \InvalidArgumentException('Failed to open memory stream'); // @phpstan-ignore-line
+            throw new \InvalidArgumentException('Failed to open memory stream');
         }
 
         return $resource;
     }
 
-    public function write(string $location, string $contents, array $config = []): void // @phpstan-ignore-line
+    public function write(string $location, string $contents, array $config = []): void
     {
     }
 
-    public function writeStream(string $location, $contents, array $config = []): void // @phpstan-ignore-line
+    public function writeStream(string $location, $contents, array $config = []): void
     {
     }
 
@@ -51,7 +51,7 @@ class MockFilesystemOperator implements FilesystemOperator
     {
     }
 
-    public function createDirectory(string $location, array $config = []): void // @phpstan-ignore-line
+    public function createDirectory(string $location, array $config = []): void
     {
     }
 
@@ -60,11 +60,11 @@ class MockFilesystemOperator implements FilesystemOperator
         return new DirectoryListing([]);
     }
 
-    public function move(string $source, string $destination, array $config = []): void // @phpstan-ignore-line
+    public function move(string $source, string $destination, array $config = []): void
     {
     }
 
-    public function copy(string $source, string $destination, array $config = []): void // @phpstan-ignore-line
+    public function copy(string $source, string $destination, array $config = []): void
     {
     }
 

@@ -4,7 +4,7 @@ namespace WechatPayComplaintBundle\DependencyInjection;
 
 use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class WechatPayComplaintExtension extends AutoExtension
+final class WechatPayComplaintExtension extends AutoExtension
 {
     protected function getConfigDir(): string
     {
