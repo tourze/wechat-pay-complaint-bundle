@@ -33,7 +33,7 @@
     "tourze/enum-extra": "1.0.*",
     "tourze/http-client-bundle": "1.1.*",
     "tourze/redis-dedicated-connection-bundle": "1.0.*",
-    "tourze/symfony-cron-job-bundle": "1.1.*",
+    "tourze/symfony-cron-job-bundle": "1.2.*",
     "tourze/symfony-dependency-service-loader": "1.0.*",
     "tourze/symfony-snowflake-bundle": "1.0.*",
     "tourze/wechat-pay-bundle": "0.1.*",
